@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <title>Documentation for the IDL routines in project MISR_HR_Tools</title>
+   </head>
+<body>
+<h1>Documentation for the IDL routines in project MISR_HR_Tools</h1>
+<h2>chk_misrhr_rpv_product</h2>
+<ul>
+<li><p><strong>Purpose:</strong> This function checks the validity of the input positional parameter<br />
+<code>misrhr_rpv_product</code>.</p></li>
+<li><p><strong>Algorithm:</strong> This function indicates whether the value of the input positional parameter <code>misrhr_rpv_product</code> is one of <code>[&#8217;Rho&#8217;, &#8217;k&#8217;, &#8217;Theta&#8217;, &#8217;Rhoc&#8217;, &#8217;Cost&#8217;, &#8217;Sigmas_Rho&#8217;, &#8217;Sigmas_k&#8217;, &#8217;Sigmas_Theta&#8217;]</code>.</p></li>
+<li><p><strong>Syntax:</strong> <code>rc = chk_misrhr_rpv_product(misrhr_rpv_product, $</code><br />
+<code>DEBUG = debug, EXCPT_COND = excpt_cond)</code></p></li>
+<li><p><strong>Positional parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>misrhr_rpv_product {STRING} [I/O]:</code> The <span class="smallcaps">MISR-HR</span> <span class="smallcaps">RPV</span> product name.</p></li>
+</ul></li>
+<li><p><strong>Keyword parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>DEBUG = debug {INT} [I] (Default value: 0):</code> Flag to activate (<code>1</code>) or skip (<code>0</code>) debugging tests.</p></li>
+<li><p><code>EXCPT_COND = excpt_cond {STRING} [O] (Default value: &#8221;):</code> Description of the exception condition if one has been encountered, or a null string otherwise.</p></li>
+</ul></li>
+<li><p><strong>Returned value type:</strong> <code>INT</code>.</p></li>
+<li><p><strong>Outcome:</strong></p>
+<ul>
+<li><p>If no exception condition has been detected, this function returns <code>0</code>, and the output keyword parameter <code>excpt_cond</code> is set to a null string, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided in the call. Upon exiting this function, the <code>I/O</code> positional parameter <code>misrhr_rpv_product</code> is a valid and properly capitalized <span class="smallcaps">RPV</span> product name.</p></li>
+<li><p>If an exception condition has been detected, this function returns a non-zero error code, and the output keyword parameter <code>excpt_cond</code> contains a message about the exception condition encountered, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided. The input positional parameter <code>misrhr_rpv_product</code> is invalid.</p></li>
+</ul></li>
+<li><p><strong>Exception conditions:</strong></p>
+<ul>
+<li><p>Error 100: One or more positional parameter(s) are missing.</p></li>
+<li><p>Error 110: Input positional parameter <code>misrhr_rpv_product</code> is not of type <code>STRING</code>.</p></li>
+<li><p>Error 120: Input positional parameter <code>misrhr_rpv_product</code> is not a scalar.</p></li>
+<li><p>Error 200: The input positional parameter <code>misrhr_rpv_product</code> is invalid.</p></li>
+</ul></li>
+<li><p><strong>Dependencies:</strong></p>
+<ul>
+<li><p><code>is_scalar.pro</code></p></li>
+<li><p><code>is_string.pro</code></p></li>
+<li><p><code>strstr.pro</code></p></li>
+</ul></li>
+<li><p><strong>Remarks:</strong></p>
+<ul>
+<li><p><strong>Note 1:</strong> Since the purpose of this function is to check the validity of the input positional parameter <code>misrhr_rpv_product</code>, all tests are performed irrespective of the setting of the input keyword parameter <code>DEBUG</code>. The keywords <code>DEBUG</code> and <code>EXCPT_COND</code> are included for consistency, and to allow reporting of the exception condition if one is encountered.</p></li>
+<li><p><strong>Note 2:</strong> The input positional parameter <code>misrhr_rpv_product</code> is properly capitalized on output.</p></li>
+</ul></li>
+<li><p><strong>Examples:</strong></p>
+<pre><code>IDL&gt; misrhr_rpv_product = &#39;k&#39;
+IDL&gt; rc = chk_misrhr_rpv_product(misrhr_rpv_product, $
+   /DEBUG, EXCPT_COND = excpt_cond)
+IDL&gt; PRINT, &#39;rc = &#39; + strstr(rc) + $
+   &#39;, excpt_cond = &gt;&#39; + excpt_cond + &#39;&lt;&#39;
+rc = 0, excpt_cond = &gt;&lt;
+
+IDL&gt; misrhr_rpv_product = &#39;FAPAR&#39;
+IDL&gt; rc = chk_misrhr_rpv_product(misrhr_rpv_product, $
+   /DEBUG, EXCPT_COND = excpt_cond)
+IDL&gt; PRINT, &#39;rc = &#39; + strstr(rc) + &#39;, excpt_cond = &gt;&#39; + $
+   excpt_cond + &#39;&lt;&#39;
+rc = 200, excpt_cond = &gt;Error 200 in CHK_MISRHR_RPV_PRODUCT:
+   Invalid misrhr_rpv_product name: must be one of
+   [&#39;Rho&#39;, &#39;k&#39;, &#39;Theta&#39;, &#39;Rhoc&#39;, &#39;Cost&#39;, &#39;Sigmas_Rho&#39;,
+   &#39;Sigmas_k&#39;, &#39;Sigmas_Theta&#39;].&lt;</code></pre></li>
+<li><p><strong>References:</strong> None.</p></li>
+<li><p><strong>Versioning:</strong></p>
+<ul>
+<li><p>2018&#8211;01&#8211;20: Version 0.9 &#8212; Initial release.</p></li>
+<li><p>2018&#8211;02&#8211;20: Version 1.0 &#8212; Initial public release.</p></li>
+<li><p>2018&#8211;05&#8211;28: Version 1.1 &#8212; Add logic to properly capitalize the input positional parameter <code>misrhr_rpv_field</code>, recognize 3 different <code>Sigmas</code> types, and documentation update.</p></li>
+<li><p>2018&#8211;06&#8211;01: Version 1.5 &#8212; Implement new coding standards.</p></li>
+<li><p>2019&#8211;01&#8211;28: Version 2.00 &#8212; Systematic update of all routines to implement stricter coding standards and improve documentation.</p></li>
+<li><p>2019&#8211;06&#8211;20: Version 2.1.0 &#8212; Rename this function <code>misrhr_rpv_product</code>, adopt revised coding and documentation standards (in particular regarding the use of <code>verbose</code> and the assignment of numeric return codes), and switch to 3-parts version identifiers.</p></li>
+</ul></li>
+</ul>
+<h2>chk_misrhr_tip_product</h2>
+<ul>
+<li><p><strong>Purpose:</strong> This function checks the validity of the input positional parameter<br />
+<code>misrhr_tip_product</code>.</p></li>
+<li><p><strong>Algorithm:</strong> This function indicates whether the value of the input positional parameter <code>misrhr_tip_product</code> is one of <code>[&#8217;EffLAI&#8217;, &#8217;EffSSA_VIS&#8217;, &#8217;EffAsym_VIS&#8217;, &#8217;TrueBkgdAlbedo_VIS&#8217;, &#8217;EffSSA_NIR&#8217;, &#8217;EffAsym_NIR&#8217;, &#8217;TrueBkgdAlbedo_NIR&#8217;, &#8217;Cost&#8217;, &#8217;BHR_VIS&#8217;, &#8217;BHR_NIR&#8217;, &#8217;ABS_VIS&#8217;, &#8217;ABS_NIR&#8217;, &#8217;TRN_VIS&#8217;, &#8217;TRN_NIR&#8217;, &#8217;StdDevParams&#8217;, &#8217;ObsCovarFluxes&#8217;, &#8217;PriorBHR_Spectral&#8217;, &#8217;PriorBHR_VIS&#8217;, &#8217;PriorBHR_NIR&#8217;, &#8217;Uncert&#8217;, &#8217;Green&#8217;, &#8217;SnowFlag&#8217;, &#8217;SnowSolution&#8217;]</code>.</p></li>
+<li><p><strong>Syntax:</strong> <code>rc = chk_misrhr_tip_product(misrhr_tip_product, $</code><br />
+<code>DEBUG = debug, EXCPT_COND = excpt_cond)</code></p></li>
+<li><p><strong>Positional parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>misrhr_tip_product {STRING} [I/O]:</code> The selected <span class="smallcaps">MISR-HR</span> <span class="smallcaps">TIP</span> field name.</p></li>
+</ul></li>
+<li><p><strong>Keyword parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>DEBUG = debug {INT} [I] (Default value: 0):</code> Flag to activate (<code>1</code>) or skip (<code>0</code>) debugging tests.</p></li>
+<li><p><code>EXCPT_COND = excpt_cond {STRING} [O] (Default value: &#8221;):</code> Description of the exception condition if one has been encountered, or a null string otherwise.</p></li>
+</ul></li>
+<li><p><strong>Returned value type:</strong> <code>INT</code>.</p></li>
+<li><p><strong>Outcome:</strong></p>
+<ul>
+<li><p>If no exception condition has been detected, this function returns <code>0</code>, and the output keyword parameter <code>excpt_cond</code> is set to a null string, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided in the call. Upon exiting this function, the <code>I/O</code> positional parameter <code>misrhr_tip_product</code> is a valid and properly capitalized <span class="smallcaps">TIP</span> product name.</p></li>
+<li><p>If an exception condition has been detected, this function returns a non-zero error code, and the output keyword parameter <code>excpt_cond</code> contains a message about the exception condition encountered, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided. The input positional parameter <code>misrhr_tip_product</code> is invalid.</p></li>
+</ul></li>
+<li><p><strong>Exception conditions:</strong></p>
+<ul>
+<li><p>Error 100: One or more positional parameter(s) are missing.</p></li>
+<li><p>Error 110: Input positional parameter <code>misrhr_tip_product</code> is not of type <code>STRING</code>.</p></li>
+<li><p>Error 120: Input positional parameter <code>misrhr_tip_product</code> is not a scalar.</p></li>
+<li><p>Error 200: The input positional parameter <code>misrhr_tip_product</code> is invalid.</p></li>
+</ul></li>
+<li><p><strong>Dependencies:</strong></p>
+<ul>
+<li><p><code>is_scalar.pro</code></p></li>
+<li><p><code>is_string.pro</code></p></li>
+<li><p><code>strstr.pro</code></p></li>
+</ul></li>
+<li><p><strong>Remarks:</strong></p>
+<ul>
+<li><p><strong>Note 1:</strong> Since the purpose of this function is to check the validity of the input positional parameter <code>misrhr_tip_product</code>, all tests are performed irrespective of the setting of the input keyword parameter <code>DEBUG</code>. The keywords <code>DEBUG</code> and <code>EXCPT_COND</code> are included for consistency, and to allow reporting of the exception condition if one is encountered.</p></li>
+<li><p><strong>Note 2:</strong> The input positional parameter <code>misrhr_tip_product</code> is properly capitalized on output.</p></li>
+</ul>
+<p>item <strong>Examples:</strong></p>
+<pre><code>IDL&gt; misrhr_tip_product = &#39;BHR_VIS&#39;
+IDL&gt; rc = chk_misrhr_tip_product(misrhr_tip_product, $
+   /DEBUG, EXCPT_COND = excpt_cond)
+IDL&gt; PRINT, &#39;rc = &#39; + strstr(rc) + $
+   &#39;, excpt_cond = &gt;&#39; + excpt_cond + &#39;&lt;&#39;
+rc = 0, excpt_cond = &gt;&lt;
+
+IDL&gt; misrhr_tip_product = &#39;Theta&#39;
+IDL&gt; rc = chk_misrhr_tip_product(misrhr_tip_product, $
+   /DEBUG, EXCPT_COND = excpt_cond)
+IDL&gt; PRINT, &#39;rc = &#39; + strstr(rc) + &#39;, excpt_cond = &gt;&#39; + $
+   excpt_cond + &#39;&lt;&#39;
+rc = 200, excpt_cond = &gt;Error 200 in CHK_MISRHR_TIP_PRODUCT:
+   Invalid misrhr_tip_product name : must be one of
+   &#39;EffLAI&#39;, &#39;EffSSA_VIS&#39;, &#39;EffAsym_VIS&#39;,
+   &#39;TrueBkgdAlbedo_VIS&#39;, &#39;EffSSA_NIR&#39;, &#39;EffAsym_NIR&#39;,
+   &#39;TrueBkgdAlbedo_NIR&#39;, &#39;Cost&#39;, &#39;BHR_VIS&#39;, &#39;BHR_NIR&#39;,
+   &#39;ABS_VIS&#39;, &#39;ABS_NIR&#39;, &#39;TRN_VIS&#39;, &#39;TRN_NIR&#39;,
+   &#39;StdDevParams&#39;, &#39;ObsCovarFluxes&#39;, &#39;PriorBHR_Spectral&#39;,
+   &#39;PriorBHR_VIS&#39;, &#39;PriorBHR_NIR&#39;, &#39;Uncert&#39;, &#39;Green&#39;,
+   &#39;SnowFlag&#39;, &#39;SnowSolution&#39;.&lt;</code></pre></li>
+<li><p><strong>References:</strong> None.</p></li>
+<li><p><strong>Versioning:</strong></p>
+<ul>
+<li><p>2018&#8211;01&#8211;20: Version 0.9 &#8212; Initial release.</p></li>
+<li><p>2018&#8211;02&#8211;20: Version 1.0 &#8212; Initial public release.</p></li>
+<li><p>2018&#8211;05&#8211;28: Version 1.1 &#8212; Documentation update.</p></li>
+<li><p>2018&#8211;06&#8211;01: Version 1.5 &#8212; Implement new coding standards.</p></li>
+<li><p>2019&#8211;01&#8211;28: Version 2.00 &#8212; Systematic update of all routines to implement stricter coding standards and improve documentation.</p></li>
+<li><p>2019&#8211;02&#8211;19: Version 2.01 &#8212; Add <code>ABS_VIS</code>, <code>ABS_NIR</code>, <code>TRN_VIS</code> and <code>TRN_NIR</code> in the official list of <span class="smallcaps">TIP</span> products.</p></li>
+<li><p>2019&#8211;06&#8211;12: Version 2.02 &#8212; Rename this function from <code>chk_misrhr_tip_field.pro</code> to <code>chk_misrhr_tip_product.pro</code>.</p></li>
+<li><p>2019&#8211;06&#8211;20: Version 2.1.0 &#8212; Adopt revised coding and documentation standards (in particular regarding the use of <code>verbose</code> and the assignment of numeric return codes), and switch to 3-parts version identifiers.</p></li>
+</ul></li>
+</ul>
+<h2>cleanup_misrhr</h2>
+<ul>
+<li><p><strong>Purpose:</strong> This function optionally deletes some or all files located in subfolders of the <code>Temp</code> directory that contains intermediary results derived during the <span class="smallcaps">MISR-HR</span> processing.</p></li>
+<li><p><strong>Algorithm:</strong> This function inspects and optionally deletes the contents of the subfolders <code>Scripts</code>, <code>SurfaceBRF</code> and <code>SurfaceGeom</code> of the <code>Temp</code> subfolders generated during the processing of <span class="smallcaps">MISR-HR</span> products for a given <span class="smallcaps">Path</span> and <span class="smallcaps">Block</span>. These folders contain intermediary results that may be useful to resume processing without having to restart from scratch, but are otherwise unnecessary for further analyses.</p>
+<ul>
+<li><p>If the optional input keyword parameter <code>MISR_PATH</code> is set, only subfolders of that <span class="smallcaps">Path</span> are visited.</p></li>
+<li><p>If the optional input keyword parameter <code>MISR_BLOCK</code> is set, only subfolders of that <span class="smallcaps">Block</span> are visited.</p></li>
+<li><p>If neither <code>MISR_PATH</code> nor <code>MISR_BLOCK</code> are set, all available combinations of <span class="smallcaps">Path</span> and <span class="smallcaps">Block</span> are inspected.</p></li>
+</ul>
+<p>In all cases, if regular files are detected in those subdirectories, the function reports on the number of files found in each applicable directory and requests explicit authorization to delete those files.</p></li>
+<li><p><strong>Syntax:</strong> <code>rc = cleanup_misrhr(MISR_PATH = misr_path, $</code><br />
+<code>MISR_BLOCK = misr_block, $</code><br />
+<code>MISRHR_FOLDER = misrhr_folder, MISRHR_VERSION = misrhr_version, $</code><br />
+<code>LOG_IT = log_it, LOG_FOLDER = log_folder, $</code><br />
+<code>VERBOSE = verbose, DEBUG = debug, EXCPT_COND = excpt_cond)</code></p></li>
+<li><p><strong>Positional parameters [Input/Output]:</strong> None.</p></li>
+<li><p><strong>Keyword parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>MISR_PATH = misr_path {INT} [I]:</code> The selected <span class="smallcaps">MISR</span> <span class="smallcaps">Path</span> number.</p></li>
+<li><p><code>MISR_BLOCK = misr_block {INT} [I]:</code> The selected <span class="smallcaps">MISR</span> <span class="smallcaps">Block</span> number.</p></li>
+<li><p><code>MISRHR_FOLDER = misrhr_folder {STRING} [I] (Default value:</code> Set by the<br />
+function <code>set_roots_vers.pro):</code> The directory address of the folder containing the <span class="smallcaps">MISR-HR</span> results.</p></li>
+<li><p><code>MISRHR_VERSION = misrhr_version {STRING} [I] (Default value:</code> Set by the function<br />
+<code>set_roots_vers.pro):</code> The <span class="smallcaps">MISR-HR</span> version identifier to use instead of the default value.</p></li>
+<li><p><code>LOG_IT = log_it {INT} [I] (Default value: 0):</code> Flag to activate (<code>1</code>) or skip (<code>0</code>) generating a log file.</p></li>
+<li><p><code>LOG_FOLDER = log_folder {STRING} [I] (Default value:</code> Set by the function<br />
+<code>set_roots_vers.pro):</code> The directory address of the output folder containing the processing log.</p></li>
+<li><p><code>VERBOSE = verbose {INT} [I] (Default value: 0):</code> Flag to enable (&gt; 0) or skip (0) outputting messages on the console:</p>
+<ul>
+<li><p>If <code>verbose &gt; 0</code>, messages inform the user about progress in the execution of time-consuming routines, or the location of output files (e.g., log, map, plot, etc.);</p></li>
+<li><p>If <code>verbose &gt; 1</code>, messages record entering and exiting the routine; and</p></li>
+<li><p>If <code>verbose &gt; 2</code>, messages provide additional information about intermediary results.</p></li>
+</ul></li>
+<li><p><code>DEBUG = debug {INT} [I] (Default value: 0):</code> Flag to activate (<code>1</code>) or skip (<code>0</code>) debugging tests.</p></li>
+<li><p><code>EXCPT_COND = excpt_cond {STRING} [O] (Default value: &#8221;):</code> Description of the exception condition if one has been encountered, or a null string otherwise.</p></li>
+</ul></li>
+<li><p><strong>Returned value type:</strong> <code>INT</code>.</p></li>
+<li><p><strong>Outcome:</strong></p>
+<ul>
+<li><p>If no exception condition has been detected, this function returns <code>0</code>, and the output keyword parameter <code>excpt_cond</code> is set to a null string, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided in the call. The files containing the intermediary results have been deleted as per explicit request.</p></li>
+<li><p>If an exception condition has been detected, this function returns a non-zero error code, and the output keyword parameter <code>excpt_cond</code> contains a message about the exception condition encountered, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided. The The files containing the intermediary results may not have been deleted.</p></li>
+</ul></li>
+<li><p><strong>Exception conditions:</strong></p>
+<ul>
+<li><p>Error 100: The input keyword parameter <code>misr_mode</code> is invalid.</p></li>
+<li><p>Error 110: The input keyword parameter <code>misr_path</code> is invalid.</p></li>
+<li><p>Error 120: The input keyword parameter <code>misrhr_folder</code> does not exist or is not a folder name.</p></li>
+<li><p>Error 199: An exception condition occurred in <code>set_roots_vers.pro</code>.</p></li>
+<li><p>Error 200: An exception condition occurred in function <code>path2str.pro</code>.</p></li>
+<li><p>Error 210: An exception condition occurred in function <code>block2str.pro</code>.</p></li>
+<li><p>Error 299: The computer is not recognized and at least one of the optional input keyword parameters <code>misrhr_folder</code>, <code>log_folder</code> is not specified.</p></li>
+<li><p>Error 300: There are no <span class="smallcaps">Path</span> folders to process in the folder <code>misrhr_fpath</code>.</p></li>
+</ul></li>
+<li><p><strong>Dependencies:</strong></p>
+<ul>
+<li><p><code>block2str.pro</code></p></li>
+<li><p><code>chk_misr_block.pro</code></p></li>
+<li><p><code>chk_misr_path.pro</code></p></li>
+<li><p><code>first_char.pro</code></p></li>
+<li><p><code>force_path_sep.pro</code></p></li>
+<li><p><code>is_numeric.pro</code></p></li>
+<li><p><code>path2str.pro</code></p></li>
+<li><p><code>set_roots_vers.pro</code></p></li>
+<li><p><code>strstr.pro</code></p></li>
+<li><p><code>today.pro</code></p></li>
+</ul></li>
+<li><p><strong>Remarks:</strong></p>
+<ul>
+<li><p><strong>Note 1:</strong> <strong>WARNING:</strong> This function is designed to delete specific files. Use with caution, and authorize the deletions for each folder individually, as these deletions cannot be undone.</p></li>
+<li><p><strong>Note 2:</strong> This function will only work correctly if the folders and subfolders of the <span class="smallcaps">MISR-HR</span> output directory follow the hierarchical structure recommended in the documentation.</p></li>
+</ul></li>
+<li><p><strong>Examples:</strong></p>
+<pre><code>IDL&gt; misr_path = 168
+IDL&gt; misr_block = 112
+IDL&gt; rc = cleanup_misrhr(MISR_PATH = misr_path, MISR_BLOCK = misr_block, /LOG_IT, /DEBUG, EXCPT_COND = excpt_cond)
+Processing Path folder /Volumes/MISR-HR/P168
+Path folder /Volumes/MISR-HR/P168 contains 7 Block folders.
+   Processing Block folder /Volumes/MISR-HR/P168/B112
+   Block folder /Volumes/MISR-HR/P168/B112 contains 1 Temp folder.
+Ready to delete 830 files matching the pattern /Volumes/MISR-HR/P168/B112/Temp/Scripts/
+Go ahead (Y/N)? n
+Skipped deleting the files /Volumes/MISR-HR/P168/B112/Temp/Scripts/*
+Ready to delete 14940 files matching the pattern /Volumes/MISR-HR/P168/B112/Temp/SurfaceBRF/
+Go ahead (Y/N)? n
+Skipped deleting the files /Volumes/MISR-HR/P168/B112/Temp/SurfaceBRF/*
+Ready to delete 415 files matching the pattern /Volumes/MISR-HR/P168/B112/Temp/SurfaceGeom/
+Go ahead (Y/N)? n
+Skipped deleting the files /Volumes/MISR-HR/P168/B112/Temp/SurfaceGeom/*
+Processing Path folder /Volumes/MISR-HR/P168_B112
+Path folder /Volumes/MISR-HR/P168_B112 contains 0 Block folders.</code></pre></li>
+<li><p><strong>References:</strong> None.</p></li>
+<li><p><strong>Versioning:</strong></p>
+<ul>
+<li><p>2019&#8211;05&#8211;04: Version 1.0 &#8212; Initial release.</p></li>
+<li><p>2019&#8211;05&#8211;05: Version 2.00 &#8212; Initial public release.</p></li>
+<li><p>2019&#8211;06&#8211;20: Version 2.1.0 &#8212; Adopt revised coding and documentation standards (in particular regarding the use of <code>verbose</code> and the assignment of numeric return codes), and switch to 3-parts version identifiers.</p></li>
+<li><p>2019&#8211;11&#8211;14: Version 2.1.1 &#8212; Add the example above and minor update to the documentation.</p></li>
+</ul></li>
+</ul>
+<h2>set_misrhr_latlon</h2>
+<ul>
+<li><p><strong>Purpose:</strong> This function calculates, returns and saves the geographical location (latitude and longitude) of each pixel in a <span class="smallcaps">MISR-HR</span> product for the specified <span class="smallcaps">MISR</span> <span class="smallcaps">Path</span> and <span class="smallcaps">Block</span> numbers. The results are saved in a plain <code>ASCII</code> file as well as in a <code>SAVE</code> file, and both are written in the default folder defined by the function <code>set_roots_vers.pro</code> or in the output directory specified by the optional input keyword parameter <code>OUT_FOLDER</code>.</p></li>
+<li><p><strong>Algorithm:</strong> This function relies on the <span class="smallcaps">MISR</span> <span class="smallcaps">Toolkit</span> function <code>MTK_BLS_TO_LATLON</code> to compute the latitude and longitude of every pixel in the specified <span class="smallcaps">Path</span> and <span class="smallcaps">Block</span>.</p></li>
+<li><p><strong>Syntax:</strong> <code>rc = set_misrhr_latlon(misr_path, misr_block,$</code><br />
+<code>latitudes, longitudes, OUT_FOLDER = out_folder,$</code><br />
+<code>VERBOSE = verbose, DEBUG = debug, EXCPT_COND = excpt_cond)</code></p></li>
+<li><p><strong>Positional parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>misr_path {INT} [I]:</code> The selected <span class="smallcaps">MISR</span> <span class="smallcaps">Path</span> number.</p></li>
+<li><p><code>misr_block {INT} [I]:</code> The selected <span class="smallcaps">MISR</span> <span class="smallcaps">Block</span> number.</p></li>
+<li><p><code>latitudes {DOUBLE array} [O]:</code> The array of pixel latitudes, dimensioned<br />
+<code>n_lines = 512</code> by <code>n_samples = 2048</code>.</p></li>
+<li><p><code>longitudes {DOUBLE array} [O]:</code> The array of pixel longitudes, dimensioned<br />
+<code>n_lines = 512</code> by <code>n_samples = 2048</code>.</p></li>
+</ul></li>
+<li><p><strong>Keyword parameters [Input/Output]:</strong></p>
+<ul>
+<li><p><code>OUT_FOLDER = out_folder {STRING} [I] (Default value:</code> Set by function<br />
+<code>set_roots_vers.pro):</code> The directory address of the folder containing the output file(s).</p></li>
+<li><p><code>VERBOSE = verbose {INT} [I] (Default value: 0):</code> Flag to enable (&gt; 0) or skip (0) outputting messages on the console:</p>
+<ul>
+<li><p>If <code>verbose &gt; 0</code>, messages inform the user about progress in the execution of time-consuming routines, or the location of output files (e.g., log, map, plot, etc.);</p></li>
+<li><p>If <code>verbose &gt; 1</code>, messages record entering and exiting the routine; and</p></li>
+<li><p>If <code>verbose &gt; 2</code>, messages provide additional information about intermediary results.</p></li>
+</ul></li>
+<li><p><code>DEBUG = debug {INT} [I] (Default value: 0):</code> Flag to activate (<code>1</code>) or skip (<code>0</code>) debugging tests.</p></li>
+<li><p><code>EXCPT_COND = excpt_cond {STRING} [O] (Default value: &#8221;):</code> Description of the exception condition if one has been encountered, or a null string otherwise.</p></li>
+</ul></li>
+<li><p><strong>Returned value type:</strong> <code>INT</code>.</p></li>
+<li><p><strong>Outcome:</strong></p>
+<ul>
+<li><p>If no exception condition has been detected, this function returns <code>0</code>, and the output keyword parameter <code>excpt_cond</code> is set to a null string, if the optional input keyword parameter <code>DEBUG</code> was set and if the optional output keyword parameter <code>EXCPT_COND</code> was provided in the call. This function saves 2 files in the folder <code>root_dirs[3] + &#8217;Pxxx_Bzzz/&#8217;</code>: the arrays of pixel latitudes and longitudes in a plain <code>ASCII</code> text file as well as in an <code>IDL</code> <code>SAVE</code> file named<br />
+<code>Lat-Lon_Pxxx_Bzzz_[Toolkit_version]_[creation_date].txt</code> and<br />
+<code>Lat-Lon_Pxxx_Bzzz_[Toolkit_version]_[creation_date].sav</code>, respectively.</p></li>
+<li><p>If an exception condition has been detected, this function returns a non-zero error code and the output keyword parameter <code>excpt_cond</code> contains a message about the exception condition encountered. The output files are not created, if the optional input keyword parameter <code>DEBUG</code> is set and if the optional output keyword parameter <code>EXCPT_COND</code> is provided.</p></li>
+</ul></li>
+<li><p><strong>Exception conditions:</strong></p>
+<ul>
+<li><p>Error 100: One or more positional parameter(s) are missing.</p></li>
+<li><p>Error 110: Positional parameter <code>misr_path</code> is invalid.</p></li>
+<li><p>Error 120: Positional parameter <code>misr_block</code> is invalid.</p></li>
+<li><p>Error 200: An exception condition occurred in function <code>path2str.pro</code>.</p></li>
+<li><p>Error 210: An exception condition occurred in function <code>block2str.pro</code>.</p></li>
+<li><p>Error 400: The output folder <code>out_fpath</code> is unwritable.</p></li>
+</ul></li>
+<li><p><strong>Dependencies:</strong></p>
+<ul>
+<li><p><code>MISR Toolkit</code></p></li>
+<li><p><code>block2str.pro</code></p></li>
+<li><p><code>chk_misr_block.pro</code></p></li>
+<li><p><code>chk_misr_path.pro</code></p></li>
+<li><p><code>is_dir.pro</code></p></li>
+<li><p><code>is_writable.pro</code></p></li>
+<li><p><code>path2str.pro</code></p></li>
+<li><p><code>set_root_dirs.pro</code></p></li>
+<li><p><code>strstr.pro</code></p></li>
+</ul></li>
+<li><p><strong>Remarks:</strong> None.</p></li>
+<li><p><strong>Examples:</strong></p>
+<pre><code>IDL&gt; rc = set_misrhr_latlon(168, 112, latitudes, longitudes, $
+   /DEBUG, EXCPT_COND = excpt_cond)
+The IDL SAVE file containing the latitudes and the longitudes
+of all MISR-HR pixels has been saved in
+~/MISR_HR/Outcomes/P168_B112/Lat-Lon_P168_B112_1.4.5_2019-11-14.sav.
+
+[To confirm the existence of the output files:]
+
+IDL&gt; rc = set_roots_vers(root_dirs, versions)
+IDL&gt; loc = root_dirs[3] + &#39;P168_B112/&#39;
+IDL&gt; SPAWN, &#39;ls &#39; + loc
+Lat-Lon_P168_B112_1.4.5_2019-11-14.sav
+Lat-Lon_P168_B112_1.4.5_2019-11-14.txt
+
+[To explore the content of the SAVE file:]
+
+IDL&gt; sf = loc + &#39;/Lat-Lon_P168_B112_1.4.5_2019-11-14.sav&#39;
+IDL&gt; sObj = OBJ_NEW(&#39;IDL_Savefile&#39;, sf)
+IDL&gt; sContents = sObj-&gt;Contents()
+IDL&gt; PRINT, sContents.N_VAR, &#39;   &#39;, sObj-&gt;Names()
+4    LATITUDES LONGITUDES N_LINES N_SAMPLES</code></pre></li>
+<li><p><strong>References:</strong> None.</p></li>
+<li><p><strong>Versioning:</strong></p>
+<ul>
+<li><p>2017&#8211;08&#8211;21: Version 0.9 &#8212; Initial release.</p></li>
+<li><p>2017&#8211;11&#8211;30: Version 1.0 &#8212; Initial public release.</p></li>
+<li><p>2018&#8211;01&#8211;16: Version 1.1 &#8212; Implement optional debugging.</p></li>
+<li><p>2018&#8211;04&#8211;17: Version 1.2 &#8212; Documentation update and bug fix: set and add the current date to the output filenames.</p></li>
+<li><p>2018&#8211;05&#8211;14: Version 1.3 &#8212; Update this function to use the revised version of<br />
+<code>is_writable.pro</code>.</p></li>
+<li><p>2018&#8211;06&#8211;01: Version 1.5 &#8212; Implement new coding standards.</p></li>
+<li><p>2018&#8211;07&#8211;03: Version 1.6 &#8212; Documentation update.</p></li>
+<li><p>2019&#8211;01&#8211;28: Version 2.00 &#8212; Systematic update of all routines to implement stricter coding standards and improve documentation.</p></li>
+<li><p>2019&#8211;04&#8211;11: Version 2.01 &#8212; Update the code to call <code>set_roots_vers.pro</code> instead of the deprecated function <code>set_root_dirs.pro</code>.</p></li>
+<li><p>2019&#8211;06&#8211;20: Version 2.1.0 &#8212; Adopt revised coding and documentation standards (in particular regarding the use of <code>verbose</code> and the assignment of numeric return codes), and switch to 3-parts version identifiers.</p></li>
+<li><p>2019&#8211;11&#8211;14: Version 2.1.1 &#8212; Minor update to the name of the output files.</p></li>
+</ul></li>
+</ul>
+</body>
+</html>
